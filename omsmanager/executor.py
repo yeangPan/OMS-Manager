@@ -10,11 +10,29 @@
 @Desc    : None
 '''
 
-
+import sys
+import traceback
+from typing import Callable
 from setttings import CODEBASE
 
 
-def run(module:str,func:str, cla:str=None, *args, **kwargs):
-    pass
+def getfunc(mod:str, func:str)->Callable:
+    try:
+        sys.path.append(CODEBASE)
+        module = __import__(mod)
+        func = getattr(module, func)
+        return func
+    except:
+        raise traceback.format_exc()
+    finally:
+        sys.path.pop(-1)
 
 
+
+def run(module:str,func:str, *args, **kwargs):
+    function = getfunc(module, func)
+    return function(*args, **kwargs)
+
+
+if __name__ == '__main__':
+    run('datastack', 'deploy')

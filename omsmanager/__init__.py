@@ -10,6 +10,6 @@
 @Desc    : None
 '''
 
-from entry import run
+from omsmanager.executor import run
 
 __all__ =  ['run']
